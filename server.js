@@ -12,6 +12,8 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
+const PORT = process.env.PORT || 3000;
+
 const ytDlpPath = path.resolve(__dirname, "yt-dlp");
 //const ffmpegPath = "C:\\ffmpeg-7.1.1-full_build\\bin\\ffmpeg.exe"; 
 const downloadPath = path.join(__dirname, 'downloads');
@@ -131,7 +133,7 @@ app.post("/stop-download", (req, res) => {
 // Servir archivos estáticos
 app.use("/downloads", express.static(downloadPath));
 
-// Iniciar servidor
-server.listen(3000, () => {
-  console.log("Servidor escuchando en http://localhost:3000");
+// Inicia el servidor en el puerto seleccionado
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
