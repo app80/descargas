@@ -1,0 +1,87 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 40px;
+  text-align: center;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+input[type="text"] {
+  width: 30%;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 10px 5px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#startBtn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#stopBtn {
+  background-color: #f44336;
+  color: white;
+}
+
+.youtube {
+  text-decoration: none;
+}
+
+.youtube:hover h1 {
+  color: red;
+}
+
+
+
+#downloadBtn {
+  background-color: #2196F3;
+  color: white;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+h2 {
+  color: #444;
+  margin-top: 30px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+li {
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 5px auto;
+  max-width: 600px;
+  border-radius: 6px;
+  text-align: left;
+}
+
+.Icono {
+  height: 40px;
+  width: 40px;
+  margin-top: 40px;
+}
