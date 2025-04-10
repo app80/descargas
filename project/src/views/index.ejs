@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Descarga Musica</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  
+  <div class="Contenedor">
+    
+    <a class="youtube" href="https://www.youtube.com/" target="_blank"><h1>Descargar Musica de YouTube</h1></a>
+    <input type="text" id="url" class="form-control" placeholder="Ingresa la URL del video de youtube">
+    <button id="startBtn">Iniciar Descarga</button>
+    <button id="stopBtn" style="display: none;">Detener Descarga</button>
+    <button id="downloadBtn" style="display: none;">Descargar Todo</button>
+    <h3 id="Descarga_Archivos" style="display: none; color: green;">Descargando...</h3>
+    <h2 id="Descarga" style="display: none;"         >Archivos Descargados:</h2>
+    <p id="mensajeError" style="color: red; display: none;">La URL proporcionada no es válida o no es de YouTube.</p>
+    <ul id="fileList"></ul>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    const startBtn = document.getElementById("startBtn");
+    const stopBtn = document.getElementById("stopBtn");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const fileList = document.getElementById("fileList");
+
+    startBtn.addEventListener("click", () => {
+
+      const url = document.getElementById("url").value;
+      const mensajeError = document.getElementById('mensajeError');
+
+
+      // Expresión regular para validar URL de YouTube
+      const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube|youtu)\.(com|be)\/(watch\?v=|embed\/|v\/|e(?:mbed)?\/|[^\/\n\s]+\/\S+)([a-zA-Z0-9_-]{11})(\S+)?$/;
+
+      if (youtubeRegex.test(url)) {
+        mensajeError.style.display = 'none';  // Si la URL es válida, ocultar el mensaje de error
+      } else {
+          mensajeError.style.display = 'block';  // Si no es válida, mostrar el mensaje de error
+        return;
+      }
+
+      if (url) {
+        fetch("/start-download", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data.message);
+          startBtn.disabled = true;
+          startBtn.style.backgroundColor = "lightgray";
+          stopBtn.style.display = "inline-block";
+          document.getElementById("Descarga").style.display ="block";
+          document.getElementById("Descarga_Archivos").style.display ="block";
+        })
+        .catch(error => console.error(error));
+          document.getElementById("Descarga").style.display ="none";
+          document.getElementById("Descarga_Archivos").style.display ="none";
+      }
+    });
+
+    stopBtn.addEventListener("click", () => {
+      fetch("/stop-download", { method: "POST" })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data.message);
+          stopBtn.style.display = "none";
+          startBtn.disabled = false;
+          startBtn.style.backgroundColor = "#4CAF50";
+          downloadBtn.style.display = "inline-block"; // Habilitar el botón de descarga
+          document.getElementById("Descarga").style.display ="none";
+          document.getElementById("Descarga_Archivos").style.display ="none";
+        })
+        .catch(error => console.error(error));
+    });
+
+    document.getElementById("Descarga").style.display ="none";
+    document.getElementById("Descarga_Archivos").style.display ="none";
+
+
+    downloadBtn.addEventListener("click", () => {
+      window.location.href = "/download-all";
+    });
+
+    socket.on("fileDownloaded", (fileName) => {
+      const li = document.createElement("li");
+      li.textContent = fileName;
+      fileList.appendChild(li);
+    });
+  </script>
+</body>
+</html>
