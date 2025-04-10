@@ -32,16 +32,11 @@ app.set('views', path.join(__dirname, 'views'));  // Ruta correcta a la carpeta 
 // Configurar el motor de plantillas (aquí estoy usando EJS como ejemplo)
 app.set('view engine', 'ejs');
 
+let ytDlpProcess = null;
+
 // Ruta que renderiza la vista 'index'
 app.get('/', (req, res) => {
   res.render('index');  // Renderiza 'index.ejs' desde la carpeta 'views'
-});
-
-let ytDlpProcess = null;
-
-// Ruta principal
-app.get("/", (req, res) => {
-  res.render("index");
 });
 
 // Iniciar la descarga
