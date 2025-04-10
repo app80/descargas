@@ -26,8 +26,8 @@ if (!fs.existsSync(downloadPath)) {
 app.use(cors());
 app.use(express.json());
 
-// Establecer el directorio de vistas
-app.set('views', path.join(__dirname, 'views'));  // Ruta correcta a la carpeta 'views'
+// Configura el directorio de vistas correctamente
+app.set('views', path.join(__dirname, 'src', 'views'));  // <-- Asegúrate de que sea la ruta correcta
 
 // Configurar el motor de plantillas (aquí estoy usando EJS como ejemplo)
 app.set('view engine', 'ejs');
