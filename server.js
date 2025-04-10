@@ -25,9 +25,17 @@ if (!fs.existsSync(downloadPath)) {
 
 app.use(cors());
 app.use(express.json());
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, 'public')));
+
+// Establecer el directorio de vistas
+app.set('views', path.join(__dirname, 'views'));  // Ruta correcta a la carpeta 'views'
+
+// Configurar el motor de plantillas (aquí estoy usando EJS como ejemplo)
+app.set('view engine', 'ejs');
+
+// Ruta que renderiza la vista 'index'
+app.get('/', (req, res) => {
+  res.render('index');  // Renderiza 'index.ejs' desde la carpeta 'views'
+});
 
 let ytDlpProcess = null;
 
